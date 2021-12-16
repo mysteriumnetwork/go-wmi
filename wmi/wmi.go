@@ -381,6 +381,18 @@ func (w *WMI) ExecMethod(params ...interface{}) (*Result, error) {
 	return ret, nil
 }
 
+// CallMethod executes a given WMI method and returns a *Result
+func (w *WMI) CallMethod(method string, params ...interface{}) (*Result, error) {
+	rawSvc, err := oleutil.CallMethod(w.wmi, method, params...)
+	if err != nil {
+		return nil, err
+	}
+	ret := &Result{
+		rawRes: rawSvc,
+	}
+	return ret, nil
+}
+
 // Gwmi makes a WMI query and returns a *Result
 func (w *WMI) Gwmi(resource string, fields []string, qParams []Query) (*Result, error) {
 	n := "*"
